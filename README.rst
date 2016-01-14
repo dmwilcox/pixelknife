@@ -33,14 +33,14 @@ Limitations
 I hope pixelknife can be of use to you -- contributions and fixes are always welcome.
 
 
-*Requrements*
+**Requrements**
 
 PyYAML
 Also pixelknife is a tad dated, it is uses the pyexiv2 library rather than gobject.
 A tarball of pyexiv2 is included in the repo since it is no longer available on pip.
 
 
-*How It Works*
+**How It Works**
 
 Symlink pixel_knife.html as index.html into a directory with photos you want to review.
 Symlink includes directory as well as 'data'.
@@ -76,4 +76,4 @@ The name of it by default is 'borgstore.yaml'.
   Backed up BorgStore to borgstore.yaml
   Shutting down HTTP server.
 
-TODO: fix printy and add docs here for how to get filenames out of yaml nicely.
+**TODO: fix printy and add docs here for how to get filenames out of yaml nicely.**
