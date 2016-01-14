@@ -35,9 +35,10 @@ I hope pixelknife can be of use to you -- contributions and fixes are always wel
 
 **Requrements**
 
-PyYAML
-Also pixelknife is a tad dated, it is uses the pyexiv2 library rather than gobject.
-A tarball of pyexiv2 is included in the repo since it is no longer available on pip.
+   * PyYAML
+   * pyexiv2 (as pixelknife is a tad dated, it is uses the pyexiv2 library rather than
+     gobject. A tarball of pyexiv2 is included in the repo since it is no longer
+     available on pip.)
 
 
 **How It Works**
@@ -49,10 +50,10 @@ Symlink includes directory as well as 'data'.
 
   # Presuming your current working directory is pixelknife and $PHOTOS is
   # the directory of photos you wish to review.
-  ln -s `pwd`/pixel_knife.html $PHOTOS/index.html
+  ln -s `pwd`/pixelknife.html $PHOTOS/index.html
   ln -s `pwd`/includes $PHOTOS/data
 
-  PK=`pwd`/pixel_knife.py
+  PK=`pwd`/pixelknife.py
   cd $PHOTOS
   python $PK
 
