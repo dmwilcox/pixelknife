@@ -1,0 +1,146 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<META name="y_key" content="2648547aa99d4e5f">
+<meta name="google-site-verification" content="EDUcrpWs9tOD6S4Lts5MCJtRtSQTvTno0tvRCGvKyfA" />
+<script type="text/javascript" src="/templates/netcu/js/jquery-1.4.2.min.js"></script>
+<script type="text/javascript" src="/templates/netcu/js/netcu.js"></script>
+<script type="text/javascript" src="/templates/netcu/js/jquery.cycle.all.min.js"></script>
+<script type="text/javascript" src="/templates/netcu/js/jquery.touchwipe.js"></script>
+<link rel="stylesheet" type="text/css" href="/templates/netcu/css/general.css" />
+<title>jQuery Touchwipe (iPhone, iPad, iPod Touch Gesten Gestures Event Wischeffekt / Wipe Effect)</title>
+<script type="text/javascript" src="/logging/logging.js"></script>
+</head>
+<body>
+<div id="fb-root"></div>
+<script>
+  window.fbAsyncInit = function() {
+    FB.init({
+      appId  : '197754783575036',
+      status : true, // check login status
+      cookie : true, // enable cookies to allow the server to access the session
+      xfbml  : true  // parse XFBML
+    });
+  };
+
+  (function() {
+    var e = document.createElement('script');
+    e.src = document.location.protocol + '//connect.facebook.net/de_DE/all.js';
+    e.async = true;
+    document.getElementById('fb-root').appendChild(e);
+  }());
+</script>
+<table id="container">
+	<tr>
+		<td class="center">
+			<div id="main">
+				<div id="top">
+					<div id="nav">
+					<ul class="ul1">
+					<li class="li1"><a href="/home" title="Home">Home</a></li>
+<li class="li1">&nbsp;&nbsp;|&nbsp;&nbsp;</li>
+					<li class="li1"><a href="/kompetenzen" title="Kompetenzen">Kompetenzen</a>
+						<ul class="ul2">
+							<li class="li2 transparent"><a href="/webdesign" title="Webdesign">Webdesign</a></li>
+							<li class="li2 white"><a href="/webapplications" title="Web Applications">Web Applications</a></li>
+							<li class="li2 white"><a href="/cms-web-content-management" title="Web Content Management">Web Content Management</a></li>
+							<li class="li2 white"><a href="/web-services-b2b-integration" title="Web Services / B2B-Integration">Web Services / B2B-Integration</a></li>
+							<li class="li2 white"><a href="/online-shop-e-commerce" title="Online Shop / E-Commerce">Online Shop / E-Commerce</a></li>
+							<li class="li2 white"><a href="/seo-suchmaschinenoptimierung" title="SEO (Suchmaschinenoptimierung)">SEO (Suchmaschinenoptimierung)</a></li>
+							<li class="li2 white"><a href="/sem-suchmaschinenmarketing" title="SEM (Suchmaschinenmarketing)">SEM (Suchmaschinenmarketing)</a></li>
+							<li class="li2 white"><a href="/web-2.0-social-web" title="Web 2.0 / Social Web">Web 2.0 / Social Web</a></li>
+							<li class="li2 white"><a href="/mobile-iphone-applications" title="Mobile Applications">Mobile Applications</a></li>
+						</ul>
+					</li>
+<li class="li1">&nbsp;&nbsp;|&nbsp;&nbsp;</li>
+					<li class="li1"><a href="/referenzen" title="Referenzen">Referenzen</a></li>
+<li class="li1">&nbsp;&nbsp;|&nbsp;&nbsp;</li>
+					<li class="li1"><a href="/publikationen" title="Publikationen">Publikationen</a></li>
+<li class="li1">&nbsp;&nbsp;|&nbsp;&nbsp;</li>
+					<li class="li1"><a href="/anfrage" title="Anfrage">Anfrage</a></li>
+<li class="li1">&nbsp;&nbsp;|&nbsp;&nbsp;</li>
+					<li class="li1"><a href="/kontakt" title="Kontakt">Kontakt</a></li>
+					</ul>
+					</div>
+					<a href="http://www.netcu.de"><img src="/templates/netcu/img/netcu_logo.png"  width="133" height="50" alt="netCU Internetagentur" title="netCU Internetagentur" style="float: right; margin-bottom: 5px; margin-right: 5px;" /></a>
+				</div>
+				<div id="content">
+				<h1>jQuery Touchwipe Plugin (iPhone, iPad, iPod Touch Gesten / Gestures, Wischeffekt / Wipe Effect)</h1>
+<p>The small 1 KB library allows you to obtain the wipe event on an iPhone, iPad or iPod Touch which can be used for example to scroll through an image gallery (see demo below). Should also work with Android touchscreens.</p>
+<p>Die 1 KB kleine Bibliothek erm&ouml;glicht das Abfangen des Wischevents auf  einem iPhone, iPad oder iPod Touch um beispielsweise durch eine  Bildergalerie zu scrollen (siehe Demo unten). Sollte auch mit Android  Touchscreens funktionieren.</p>
+<h4>Demo (use your iPhone, iPad or iPod Touch)</h4>
+<div id="imagegallery" style="border: 1px solid #666666; width: 400px; height: 300px; margin-top: 10px; margin-bottom: 10px;"><img title="Orange Blumen" src="/media/jquery/garden_i400x300.jpg" alt="Orange Blumen" width="400" height="300" /> <img style="display: none" title="Ein flie&szlig;ender Wasserfall, umrahmt von Blumen." src="/media/jquery/waterfall_i400x300.jpg" alt="Ein flie&szlig;ender Wasserfall, umrahmt von Blumen." width="400" height="300" /> <img style="display: none" title="Ahornbl&auml;tter im Herbst." src="/media/jquery/autumn-leaves_i400x300.jpg" alt="Ahornbl&auml;tter im Herbst." width="400" height="300" /></div>
+<p><a id="prev" href="#">&laquo;</a>&nbsp; <a id="next" href="#">&raquo;</a>
+<script type="text/javascript"><!--
+$(document).ready(function() {
+	$('#imagegallery').cycle({
+		timeout: 0,
+		fx: 'scrollHorz',
+		next: '#next',
+		prev: '#prev' 
+	});
+ 
+	$("#imagegallery").touchwipe({
+ 		wipeLeft: function() {
+ 	 		$("#imagegallery").cycle("next");
+ 		},
+ 		wipeRight: function() {
+ 	 		$("#imagegallery").cycle("prev");
+ 		}
+	});
+});
+// --></script>
+</p>
+<h4>Usage / Benutzung<br /></h4>
+<div style="border: solid 1px #666; padding: 5px; background-color: #f3f3f3; margin-top: 10px; margin-bottom: 10px;"><code>$("#imagegallery").touchwipe({<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;wipeLeft: function() { alert("left"); },<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;wipeRight: function() { alert("right"); },<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;wipeUp: function() { alert("up"); },<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;wipeDown: function() { alert("down"); },<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;min_move_x: 20,<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;min_move_y: 20,<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;preventDefaultEvents: true<br />});</code></div>
+<h4>Download</h4>
+<ul>
+<li><a href="/templates/netcu/js/jquery.touchwipe.1.1.1.js">jquery.touchwipe.js</a> (1,7 KB, Version 1.1.1)</li>
+<li><a href="/templates/netcu/js/jquery.touchwipe.min.js">jquery.touchwipe.min.js</a> (1,2 KB, Version 1.1.1)</li>
+</ul>
+<form style="margin-top: 10px; margin-left: 10px" action="https://www.paypal.com/cgi-bin/webscr" method="post"><input name="cmd" type="hidden" value="_s-xclick" /> <input name="hosted_button_id" type="hidden" value="SBHQF5D6GYAPU" /> <input alt="Jetzt einfach, schnell und sicher online bezahlen &ndash; mit PayPal." name="submit" src="https://www.paypal.com/de_DE/DE/i/btn/btn_donateCC_LG.gif" type="image" /> <img src="https://www.paypal.com/de_DE/i/scr/pixel.gif" border="0" alt="" width="1" height="1" /></form>
+<h4><br /></h4>
+<h4>jQuery Plugin Website</h4>
+<p><a href="http://plugins.jquery.com/project/Touchwipe-iPhone-iPad-wipe-gesture">http://plugins.jquery.com/project/Touchwipe-iPhone-iPad-wipe-gesture</a></p>
+				<script type="text/javascript">
+				function noSpam() {
+				    var a = document.getElementsByTagName("a");
+				    for (var i = a.length-1; i >= 0; i--) {
+				      if (a[i].className.search(/\bemail\b/) != -1) {
+				        var email = a[i].firstChild.data + "@" + a[i].lastChild.data;
+				        a[i].innerHTML = email;
+				        a[i].href = "mailto:" + email;
+				      }
+				    }
+				}
+				noSpam();
+				</script>
+								</div>				
+				<div id="footer">
+					<div id="footerleft">netCU Internetagentur <sup>.</sup> Andreas Waltl <sup>.</sup> Schwanenstraße 7 <sup>.</sup> 85049 Ingolstadt<br />Telefon: 0841 - 99 35 64 39 <sup>.</sup> E-Mail: <a class="emailaddress black" href="#">info<span><span>&part;</span></span>netcu.de</a>
+					</div>
+					<div id="footerright">
+<a href="/impressum" title="Impressum">Impressum</a>
+					</div>
+				</div>
+			</div>
+		</td>
+	</tr>
+</table>
+<script type="text/javascript">
+function noSpamNetcu() {
+    var a = document.getElementsByTagName("a");
+    for (var i = a.length-1; i >= 0; i--) {
+      if (a[i].className.search(/\bemailaddress\b/) != -1) {
+        var email = a[i].firstChild.data + "@" + a[i].lastChild.data;
+        a[i].innerHTML = email;
+        a[i].href = "mailto:" + email;
+      }
+    }
+}
+noSpamNetcu();
+</script>
+
+</body>
+</html><!-- 0.091 -->

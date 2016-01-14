@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Photo Reviewer</title>
+    <link rel="stylesheet" href="data/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="data/magicsuggest/magicsuggest.min.css">
+  </head>
+  <body>
+    <div class="container-fluid">
+      <div class="hero-unit">
+        <div id="frame"></div>
+        <div class="btn-group">
+
+          <button id="prev" class="btn btn-large">
+            <i class="icon-backward"></i>&nbsp;Prev
+          </button>
+
+          <button id="filename" class="btn btn-large disabled"></button>
+
+          <button class="btn btn-large disabled">
+            Count:&nbsp;<span id="count" class="badge badge-info"></span>
+          </button>
+
+          <button id="voteup" class="btn btn-large">
+            <i class="icon-star"></i>&nbsp;+1
+          </button>
+
+          <button id="votedown" class="btn btn-large">
+            <i class="icon-trash"></i>&nbsp;-1
+          </button>
+
+          <button class="btn btn-large disabled">
+            Rating:&nbsp;<span id="rating" class="badge badge-info"></span>
+          </button>
+
+          <button id="next" class="btn btn-large">
+            Next&nbsp;<i class="icon-forward"></i>
+        </button>
+
+        </div><!-- end .btn-group -->
+
+        <div class="btn-group">
+          <button class="btn btn-large">
+            <div id="tagbox"></div>
+          </button>
+        </div>
+
+      </div><!-- end .hero-unit -->
+
+      <div id="metadata"></div>
+
+    </div><!-- end .container -->
+
+  <script type="text/javascript" src="data/jquery/jquery.js"></script>
+  <script type="text/javascript" src="data/bootstrap/js/bootstrap.min.js"></script>
+  <script type="text/javascript" src="data/jquery/console.js"></script>
+  <script type="text/javascript" src="data/jquery/jquery-touchwipe.js"></script>
+  <script type="text/javascript" src="data/magicsuggest/magicsuggest.min.js"></script>
+  <script type="text/javascript">
+  var image_listing = [];
+  var image_ptr = 0;
+
+  var main = function() {
+    // Get all the images to work with.
+    var xhr = $.getJSON('/allz', function(json) {
+         image_listing = json.data.images;
+        // Render first pages image.
+        getImage(image_listing[image_ptr]);
+    });
+    xhr.error(function() {
+      alert('error querying allz');
+    });
+
+    // getMagicSuggestTags(image_listing[image_ptr]);
+
+    $('#next').click(getNextImage);
+    $('#prev').click(getPrevImage);
+
+    $('#voteup').click(sendVoteUp);
+    $('#votedown').click(sendVoteDown);
+
+    $('#frame').touchwipe(
+        { wipeLeft: getNextImage,
+          wipeRight: getPrevImage,
+          wipeUp: function() {},
+          wipeDown: function() {},
+          min_move_x: 20,
+          min_move_y: 20,
+          preventDefaultEvents: false }
+     ).click(getNextImage);
+  };
+
+  var setupMagicTags = function(tag_data) {
+    // may want to add a bit to remove prev listener if present.
+    $('#tagbox').empty();
+    $('#tagbox').append('<div id="tags"></div>')
+    var ms = $('#tags').magicSuggest(
+        { width: 360,
+          sortOrder: 'name',
+          selectionPosition: 'right',
+         // selectionPosition: 'bottom',
+         // selectionStacked: true,
+          displayField: 'name',
+          value: tag_data.values,
+          data: tag_data.tags}
+    );
+    // need a magic suggest handle in particular, DOM no go.
+    $(ms).on('selectionchange', setMagicSuggestTags);
+  };
+
+  var getMagicSuggestTags = function(filename) {
+    var xhr = $.getJSON('/tagz?file=' + filename, function(json) {
+      setupMagicTags(json.data);
+    });
+    xhr.error(function() {
+      alert('error querying magic tags');
+    });
+  };
+
+  var setMagicSuggestTags = function(e, data, selection) {
+    var image_path = image_listing[image_ptr];
+    // var tags = [];
+    var set_tag_params = '&image_path=' + image_path;
+    for (var i in selection) {
+        var tag = encodeURI(selection[i].name);
+        // tags.push(tag);
+        set_tag_params = set_tag_params + '&tags=' + tag;
+    }
+    // alert('tags found:' + tags + '\n params:' + set_tag_params);
+    $.post('/tagz', set_tag_params, function(json) {
+      // alert('tags set on img:' + json.data)
+    });
+  };
+
+  var sendVoteUp = function() {
+    var file_path = image_listing[image_ptr];
+    $.post('/votez', {file: file_path, vote: 1}, function(json) {
+      $('#rating').html(json.data[file_path]);
+    });
+  };
+
+  var sendVoteDown = function() {
+    var file_path = image_listing[image_ptr];
+    $.post('/votez', {file: file_path, vote: '-1'}, function(json) {
+      $('#rating').html(json.data[file_path]);
+    });
+  };
+
+
+  var getNextImage = function() {
+    if ((++image_ptr) >= image_listing.length) {
+      image_ptr = 0;
+    }
+    getImage(image_listing[image_ptr]);
+  };
+
+  var getPrevImage = function() {
+    if ((--image_ptr) < 0) {
+      image_ptr = image_listing.length - 1;
+    }
+    getImage(image_listing[image_ptr]);
+  };
+
+  var updateImageMetadata = function(idx, filename) {
+    $('#filename').html(filename);
+    $('#count').html(idx + '/' + image_listing.length);
+    var xhr = $.getJSON('/infoz?file=' + filename, function(json) {
+        var metadata = json.data;
+        $('#metadata').empty();
+        $('#metadata').append('<ul>');
+        for (var k in metadata) {
+          val = metadata[k];
+          $('#metadata').append('<li>'+ k + ' - ' + val + '</li>');
+        }
+        $('#metadata').append('</ul>');
+    });
+  };
+
+  var updateImageRating = function(filename) {
+    var xhr = $.getJSON('/votez?file=' + filename, function(json) {
+      var rating_data = json.data;
+      $('#rating').html(rating_data[filename]);
+    });
+  };
+
+  var getImage = function(image_path) {
+    var img = document.createElement('img')
+    img.src = image_path;
+    // sigh, this only works for unchanged 'raw' photos, need to get
+    // actual resolution
+    img.height = 600;
+    img.width = 900;
+    img.onload = function() { renderImage(img); };
+    updateImageRating(image_path);
+    updateImageMetadata(image_ptr, image_path);
+    getMagicSuggestTags(image_path);
+  };
+
+  var renderImage = function(img) {
+    $('#frame').empty()
+    $('#frame').append(img);
+  };
+
+  $(document).ready(main)
+  </script>
+  </body>
+</html>
